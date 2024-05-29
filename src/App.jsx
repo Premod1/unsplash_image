@@ -22,7 +22,7 @@ function App() {
           `${API_URL}?query=${
             searchInput.current.value
           }&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${
-            import.meta.env.VITE_API_KEY
+            import.meta.env.API_KEY
           }`
         );
         setImages(data.results);
