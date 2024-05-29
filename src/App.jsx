@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 
+
 const API_URL = 'https://api.unsplash.com/search/photos';
 const IMAGES_PER_PAGE = 20;
 
@@ -22,7 +23,7 @@ function App() {
           `${API_URL}?query=${
             searchInput.current.value
           }&page=${page}&per_page=${IMAGES_PER_PAGE}&client_id=${
-            process.env.API_KEY
+            import.meta.env.VITE_API_KEY
           }`
         );
         setImages(data.results);
