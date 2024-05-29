@@ -4,7 +4,8 @@ A React application that allows users to browse and view images from Unsplash us
 
 ## Demo
 
-Add a link to your live demo or include screenshots of your application.
+Check out the live demo of the application: [Unsplash Image Viewer Demo](https://unsplash-image-taupe.vercel.app/)
+
 
 ![Demo Screenshot](link-to-screenshot.png)
 
