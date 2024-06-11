@@ -133,6 +133,12 @@ body {
 .images .image:hover {
   transform: translateY(-3px);
 }
+.download_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 5px;
+}
 
 /* images section ends */
 
@@ -151,6 +157,15 @@ body {
   }
 
   .images {
-    grid-template-columns: 1fr;
+    grid-template-columns: 2fr;
+  }
+  .images .image {
+    width: 300px;
+    height: 300px;
+    justify-self: center;
+    align-self: center;
+    margin-left: 2rem;
+    border-radius: 10px;
+    transition: transform 0.5s;
   }
 }

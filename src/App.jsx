@@ -1,9 +1,8 @@
-import axios from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Form } from 'react-bootstrap';
+import axios from "axios";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Button, Form } from "react-bootstrap";
 
-
-const API_URL = 'https://api.unsplash.com/search/photos';
+const API_URL = "https://api.unsplash.com/search/photos";
 const IMAGES_PER_PAGE = 20;
 
 function App() {
@@ -11,13 +10,13 @@ function App() {
   const [images, setImages] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(false);
 
   const fetchImages = useCallback(async () => {
     try {
       if (searchInput.current.value) {
-        setErrorMsg('');
+        setErrorMsg("");
         setLoading(true);
         const { data } = await axios.get(
           `${API_URL}?query=${
@@ -26,12 +25,13 @@ function App() {
             import.meta.env.VITE_API_KEY
           }`
         );
+        console.log(data)
         setImages(data.results);
         setTotalPages(data.total_pages);
         setLoading(false);
       }
     } catch (error) {
-      setErrorMsg('Error fetching images. Try again later.');
+      setErrorMsg("Error fetching images. Try again later.");
       console.log(error);
       setLoading(false);
     }
@@ -56,41 +56,64 @@ function App() {
     resetSearch();
   };
 
+  const downloadImage = (url) => {
+    // Open the URL in a new tab
+    const newTab = window.open(url, '_blank');
+    newTab.focus();
+
+    // Use a small timeout to ensure the new tab is fully loaded before triggering download
+    setTimeout(() => {
+      const link = newTab.document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "");
+      newTab.document.body.appendChild(link);
+      link.click();
+      newTab.document.body.removeChild(link);
+    }, 1000); // Adjust the timeout as needed
+  };
+
   return (
-    <div className='container'>
-      <h1 className='title'>Image Search</h1>
-      {errorMsg && <p className='error-msg'>{errorMsg}</p>}
-      <div className='search-section'>
+    <div className="container">
+      <h1 className="title">Image Search</h1>
+      {errorMsg && <p className="error-msg">{errorMsg}</p>}
+      <div className="search-section">
         <Form onSubmit={handleSearch}>
           <Form.Control
-            type='search'
-            placeholder='Type something to search...'
-            className='search-input'
+            type="search"
+            placeholder="Type something to search..."
+            className="search-input"
             ref={searchInput}
           />
         </Form>
       </div>
-      <div className='filters'>
-        <div onClick={() => handleSelection('nature')}>Nature</div>
-        <div onClick={() => handleSelection('birds')}>Birds</div>
-        <div onClick={() => handleSelection('cats')}>Cats</div>
-        <div onClick={() => handleSelection('shoes')}>Shoes</div>
+      <div className="filters">
+        <div onClick={() => handleSelection("nature")}>Nature</div>
+        <div onClick={() => handleSelection("birds")}>Birds</div>
+        <div onClick={() => handleSelection("cats")}>Cats</div>
+        <div onClick={() => handleSelection("shoes")}>Shoes</div>
       </div>
       {loading ? (
-        <p className='loading'>Loading...</p>
+        <p className="loading">Loading...</p>
       ) : (
         <>
-          <div className='images'>
+          <div className="images">
             {images.map((image) => (
-              <img
-                key={image.id}
-                src={image.urls.small}
-                alt={image.alt_description}
-                className='image'
-              />
+              <div key={image.id} className="image-container">
+                <img
+                  src={image.urls.small}
+                  alt={image.alt_description}
+                  className="image"
+                />
+                <div className="download_button">
+                  <Button onClick={() => downloadImage(image.links.download)}>
+                    Download
+                  </Button>
+                </div>
+              </div>
             ))}
           </div>
-          <div className='buttons'>
+
+          <div className="buttons">
             {page > 1 && (
               <Button onClick={() => setPage(page - 1)}>Previous</Button>
             )}
