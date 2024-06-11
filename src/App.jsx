@@ -25,7 +25,7 @@ function App() {
             import.meta.env.VITE_API_KEY
           }`
         );
-        console.log(data)
+        console.log(data);
         setImages(data.results);
         setTotalPages(data.total_pages);
         setLoading(false);
@@ -57,13 +57,19 @@ function App() {
   };
 
   const downloadImage = (url) => {
-    console.log(url);
-    // const link = document.createElement("a");
-    // link.href = url;
-    // link.setAttribute("download", "");
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
+    // Open the URL in a new tab
+    const newTab = window.open(url, "_blank");
+    newTab.focus();
+
+    // Use a small timeout to ensure the new tab is fully loaded before triggering download
+    setTimeout(() => {
+      const link = newTab.document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "");
+      newTab.document.body.appendChild(link);
+      link.click();
+      newTab.document.body.removeChild(link);
+    }, 1000); // Adjust the timeout as needed
   };
 
   return (
@@ -100,9 +106,9 @@ function App() {
                 />
                 <div className="download_button">
                   <Button
-                    onClick={() => downloadImage(image.links.download_location)}
+                    onClick={() => downloadImage(image.links.download)}
                   >
-                    Download
+                    Preview
                   </Button>
                 </div>
               </div>
