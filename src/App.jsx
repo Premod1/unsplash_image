@@ -57,19 +57,13 @@ function App() {
   };
 
   const downloadImage = (url) => {
-    // Open the URL in a new tab
-    const newTab = window.open(url, '_blank');
-    newTab.focus();
-
-    // Use a small timeout to ensure the new tab is fully loaded before triggering download
-    setTimeout(() => {
-      const link = newTab.document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "");
-      newTab.document.body.appendChild(link);
-      link.click();
-      newTab.document.body.removeChild(link);
-    }, 1000); // Adjust the timeout as needed
+    console.log(url);
+    // const link = document.createElement("a");
+    // link.href = url;
+    // link.setAttribute("download", "");
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
   };
 
   return (
@@ -105,7 +99,9 @@ function App() {
                   className="image"
                 />
                 <div className="download_button">
-                  <Button onClick={() => downloadImage(image.links.download)}>
+                  <Button
+                    onClick={() => downloadImage(image.links.download_location)}
+                  >
                     Download
                   </Button>
                 </div>
